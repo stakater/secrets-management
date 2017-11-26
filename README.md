@@ -93,3 +93,7 @@ For example, even though you may authenticate using something like GitHub, Vault
 #### 
 
 
+## References
+
+- https://spring.io/blog/2016/06/24/managing-secrets-with-vault
+- https://blog.openshift.com/managing-secrets-openshift-vault-integration/
