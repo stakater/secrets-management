@@ -63,6 +63,12 @@ The GitHub auth backend can be used to authenticate with Vault using a GitHub pe
 
 #### Step 3 : Authenticate to Vault as Service (Pod)
 
+[Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
+
+A service account provides an identity for processes that run in a Pod.
+
+When you (a human) access the cluster (for example, using kubectl), you are authenticated by the apiserver as a particular User Account (currently this is usually admin, unless your cluster administrator has customized your cluster). Processes in containers inside pods can also contact the apiserver. When they do, they are authenticated as a particular Service Account (for example, default).
+
 [Auth Backend: Kubernetes](https://www.vaultproject.io/docs/auth/kubernetes.html)
 
 The Kubernetes auth backend can be used to authenticate with Vault using a Kubernetes Service Account Token. This method of authentication makes it easy to introduce a Vault token into a Kubernetes Pod.
