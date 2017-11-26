@@ -29,7 +29,7 @@ Let’s make credentials short-lived.
 
 ## Tools
 
-### Vault
+### 1. Vault
 
 Vault is secret store software. It can be used to safely store and manage credentials. I think that two things distinguish Vault from the rest of the crowd:
 
@@ -39,6 +39,11 @@ Vault is secret store software. It can be used to safely store and manage creden
 Managed credentials make Vault interesting for those scenarios where high automation is required, while at the same time strict security requirements on credential management need to be enforced
 
 Doing encryption right is tough, managing secrets is even harder if doing it yourself. Vault addresses exactly these issues. It helps to address the chicken-egg problem and it comes with encryption. Vault is a service to manage secrets. It provides an API that gives access to secrets based on policies. Any user of the API needs to authenticate and only sees the secrets for which he is authorized. Vault encrypts data using 256-bit AES with GCM. It can store data in various backends (files, Amazon DynamoDB, Consul, etcd and much more). The other key aspect is that Vault never stores a key in a persistent location. Starting/restarting Vault always requires one or more operators to unseal Vault. 
+
+### 2. Vault Sidekick
+
+[Vault Sidekick](https://github.com/UKHomeOffice/vault-sidekick)
+
 
 ## How?
 
