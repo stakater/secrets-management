@@ -98,3 +98,4 @@ For example, even though you may authenticate using something like GitHub, Vault
 
 - https://spring.io/blog/2016/06/24/managing-secrets-with-vault
 - https://blog.openshift.com/managing-secrets-openshift-vault-integration/
+- https://spring.io/blog/2016/08/15/managing-your-database-secrets-with-vault
