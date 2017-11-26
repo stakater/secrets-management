@@ -15,10 +15,6 @@ The Kubernetes auth backend can be used to authenticate with Vault using a Kuber
 
 ---
 
-
-
----
-
 #### Step 1 : Authenticate to Vault as User
 
 [Authenticate to Vault using GitHub](https://www.vaultproject.io/docs/auth/github.html)
