@@ -1,6 +1,8 @@
 # secrets-management
 how to manage secrets?
 
+Credentials are environment dependent configurations that need to be kept secret and should be read only by subjects with a need-to-know.
+
 ## Tools
 
 - vault
