@@ -146,6 +146,164 @@ For example, even though you may authenticate using something like GitHub, Vault
 
 [Deploying Secrets](https://github.com/UKHomeOffice/application-container-platform/blob/master/developer-docs/platform_introduction.md#deploying-secrets)
 
+## Deploying secrets
+
+Your application is likely to have some parameters that are essential to the security of the application - for example API tokens and DB passwords. These should be stored as Kubernetes secrets to enable your application to read them. This process is described in the following guide.
+
+See [official docs](http://kubernetes.io/docs/user-guide/secrets/#creating-a-secret-using-kubectl-create-secret) for more complete documentation; what follows is a very abridged version.
+
+### Generate a strong secret
+
+When generating passwords you should use the following code to ensure you are generating strong passwords.
+
+```bash
+$ LC_CTYPE=C tr -dc "[:print:]" < /dev/urandom | head -c 32
+```
+
+### Create a kubernetes secret
+
+Create a file called **example-secret.yaml** with the following content below.
+In this example, when deployed it will create a kubernetes secret called `my-secret`. Feel free to replace the name `my-secret` with something else, especially if you are working in a group and going through this exercise for the Developer Induction. If you don't you will most likely overwrite each others secret when deploying to Kubernetes:
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+type: Opaque
+data:
+  supersecret: {{.MY_SECRET}}
+```
+
+> *Please note* that you shouldn't commit passwords or sensitive information in your
+> repository. We suggest you use environment variables to load secrets into the
+> yaml file.
+
+Secrets are passed to kubernetes as base64 encoded strings. To encode or decode a base64 string use the following commands:
+
+```bash
+$ echo -n "yay it is a secret" | base64
+$ echo eWF5IGl0IGlzIGEgc2VjcmV0 | base64 -D
+```
+
+Now let's deploy our secret to Kubernetes:
+
+```bash
+$ export MY_SECRET=$(echo -n "replace this secret with something more exciting please!" | base64)
+$ kd --file example-secret.yaml
+```
+
+### See and edit the stored secrets
+
+You can retrieve the secret with:
+
+```bash
+$ kubectl get secrets
+$ kubectl describe secret <my-secret>
+```
+
+If you wish to edit secrets already loaded in to Kubernetes you can do so by downloading and reapplying the manifest. You can download the secrets as a Yaml file with:
+
+```bash
+$ kubectl get secret <my-secret> -o yaml > example-secrets.yaml
+```
+
+You can edit the content of  `example-secrets.yaml`, but remember: values are base64 encoded. If you wish to inspect or add a new entry, you need to decode or encode that value.
+
+Once you're done with the changes, you can reapply all the secrets with:
+
+```bash
+$ kubectl apply -f example-secrets.yaml
+```
+
+> Please note that it's possible to append a key value pair to an existing secret. You can however download the secret's manifest and reapply the changes as explained above.
+
+### Use the secrets
+
+You can mount secrets into your application using either mounted volumes or by using them as environment variables.
+
+The below example shows a deployment that does both. However for this challenge please update your deployment in acp-hello-world to use your secret as an environment variable called MYSUPERSECRET.
+
+<details>
+<summary>**This yaml is an example! Please do not copy and paste, just use it as a guide to modify your own deployment.yaml!**</summary>
+
+```yaml
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: induction-hello-world
+spec:
+  volumes:
+    - name: "secretstest"
+      secret:
+        secretName: mysecret
+  containers:
+    - image: nginx:1.9.6
+      name: awebserver
+      volumeMounts:
+        - mountPath: "/tmp/mysec"
+          name: "secretstest"
+      env:
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+                name: my-secret
+                key: dbpass
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+                name: my-secret
+                key: dbuser
+        - name: HOST
+          valueFrom:
+            secretKeyRef:
+                name: my-secret
+                key: dbhost
+```
+</details>
+
+For your own deployment.yaml file you should have an env section in the appropriate place that looks similar to this. The `name` and `key` fields should be the same:
+
+```yaml
+env:
+  - name: MYSUPERSECRET
+    valueFrom:
+      secretKeyRef:
+          name: <what you have named your secret>
+          key: supersecret
+```
+
+Once you've updated your deployment file to set the `MYSUPERSECRET` environment variable using the kubernetes secret, you will need to redeploy it:
+
+```bash
+$ APP_NAME=tgxu172 \
+  APP_VERSION=v1 \
+  kd --file kube-templated/deployment.yaml
+```
+
+Now when you navigate to https://tgxu172.notprod.homeoffice.gov.uk/ you should see your secret outputted as part of the message.
+
+### Debug with secrets
+
+Sometimes your app doesn't want to talk to an API or a DB and you've stored the credentials or just the details of that in secret.
+
+The following approaches can be used to validate that your secret is set correctly
+
+```bash
+$ kubectl exec -ti my-pod -c my-container -- mysql -h\$DBHOST -u\$DBUSER -p\$DBPASS
+## or
+$ kubectl exec -ti my-pod -c my-container -- openssl verify /secrets/certificate.pem
+## or
+$ kubectl exec -ti my-pod -c my-container bash
+## and you'll naturally have all the environment variables set and volumes mounted.
+## however we recommend against outputing them to the console e.g. echo $DBHOST
+## instead if you want to assert a variable is set correctly use
+$ [[ -z $DBHOST ]]; echo $?
+## if it returns 1 then the variable is set.
+```
+
 ---
 
 ## References
