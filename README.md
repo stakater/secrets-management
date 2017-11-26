@@ -13,6 +13,22 @@ With the Kubernetes auth backend you can easily get your pods Vault tokens which
 
 The Kubernetes auth backend can be used to authenticate with Vault using a Kubernetes Service Account Token. This method of authentication makes it easy to introduce a Vault token into a Kubernetes Pod.
 
+### Authentication
+
+Authentication in Vault is the process by which user or machine supplied information is verified against an internal or external system. Before a client can interact with Vault, it must authenticate against an authentication backend. Upon authentication, a token is generated. This token is conceptually similar to a session ID on a website. The token may have attached policy, which is mapped at authentication time.
+
+Vault supports a number of authentication backends. Some backends are targeted toward users while others are targeted toward machines. 
+
+Only one authentication is required to gain access to Vault, and it is not currently possible to force a user through multiple authentication backends to gain access, although some backends do support MFA.
+
+#### Machine authentication to Vault?
+
+
+
+#### Human authentication to Vault?
+
+
+
 ### Basic Concepts of Vault?
 
 [Basic Concepts](https://www.vaultproject.io/docs/concepts/index.html)
