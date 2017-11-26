@@ -67,6 +67,35 @@ The GitHub auth backend can be used to authenticate with Vault using a GitHub pe
 
 The Kubernetes auth backend can be used to authenticate with Vault using a Kubernetes Service Account Token. This method of authentication makes it easy to introduce a Vault token into a Kubernetes Pod.
 
+[Spring Vault Kubernetes Authentication](https://github.com/spring-projects/spring-vault/blob/master/src/main/asciidoc/reference/authentication.adoc#kubernetes-authentication)
+
+Vault supports since 0.8.3 kubernetes-based authentication using Kubernetes tokens.
+
+Using Kubernetes authentication requires a Kubernetes Service Account Token, usually mounted at `/var/run/secrets/kubernetes.io/serviceaccount/token`. The file contains the token which is read and sent to Vault. Vault verifies its validity using Kubernets' API during login.
+
+Configuring Kubernetes authentication requires at least the role name to be provided:
+
+```
+@Configuration
+class AppConfig extends AbstractVaultConfiguration {
+
+    // …
+
+    @Override
+    public ClientAuthentication clientAuthentication() {
+
+        KubernetesAuthenticationOptions options = KubernetesAuthenticationOptions.builder()
+                .role(…).build();
+
+        return new KubernetesAuthentication(options, restOperations());
+    }
+
+    // …
+}
+```
+
+You can configure the authentication via `KubernetesAuthenticationOptions`.
+
 ##### Security Model
 
 The current authentication model requires providing Vault with a Service Account token, which can be used to make authenticated calls to Kubernetes. This token should not typically be shared, but in order for Kubernetes to be treated as a trusted third party, Vault must validate something that Kubernetes has cryptographically signed and that conveys the identity of the token holder.
