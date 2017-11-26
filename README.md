@@ -140,8 +140,13 @@ It is important to understand that authentication works by verifying your identi
 
 For example, even though you may authenticate using something like GitHub, Vault generates a unique access token for you to use for future requests. The CLI automatically attaches this token to requests, but if you're using the API you'll have to do this manually.
 
-#### 
+---
 
+## Secrets with Kubernetes
+
+[Deploying Secrets](https://github.com/UKHomeOffice/application-container-platform/blob/master/developer-docs/platform_introduction.md#deploying-secrets)
+
+---
 
 ## References
 
