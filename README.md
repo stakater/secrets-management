@@ -44,6 +44,7 @@ Doing encryption right is tough, managing secrets is even harder if doing it you
 
 [Vault Sidekick](https://github.com/UKHomeOffice/vault-sidekick)
 
+Vault Sidekick is a add-on container which can be used as a generic entry-point for interacting with Hashicorp Vault service, retrieving secrets (both static and dynamic) and PKI certs. The sidekick will take care of renewal's and extension of leases for you and renew the credentials in the specified format for you.
 
 ## How?
 
