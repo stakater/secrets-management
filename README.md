@@ -27,6 +27,8 @@ Only one authentication is required to gain access to Vault, and it is not curre
 
 #### Step 1 : Authenticate to Vault as User
 
+[Authenticate to Vault using GitHub](https://www.vaultproject.io/docs/auth/github.html)
+
 #### Step 2 : Create a secret in Vault
 
 
