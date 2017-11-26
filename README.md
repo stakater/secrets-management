@@ -19,6 +19,14 @@ As you see, encryption introduces a **chicken-egg problem**. Storing a decryptio
 
 One approach is putting the key in a hard to guess location before the application starts and wipe the key once it was read to memory. The time in which the key is available is shortened. The attack time-frame is reduced, but still the key was there. Wiping the key works only for one application startup. Containers and microservices in the Cloud are known to be restarted once they crashed. A restart of the application is no longer possible as the key is gone.
 
+## Database credentials tend to be static
+
+When it comes to databases, the regular workflow of getting credentials applying for a database is asking some operator or a self-service tool to give you credentials so your application can log into the database. At this point, credentials are considered static. Credentials get usually changed in case the database is migrated or if there’s a security breach.
+
+There’s one caveat: Long-lived credentials are a good target for leakage. Leaked credentials can give access to an unintended party. A few databases implement restrictions on source hosts. In some cases, a database user can be restricted to a group of hosts. That restriction prevents access from other hosts. Still, every user and process that has access to a permitted machine can use the leaked credentials. But how do you discover that leakage? You might find the leak if your data was leaked to the public or the internet but that’s not always the case. For other cases, the unintended party may read or change your data, and it’s fairly sure the leak remains undiscovered for quite a while.
+
+Let’s make credentials short-lived.
+
 ## Tools
 
 ### Vault
