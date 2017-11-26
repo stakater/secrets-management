@@ -5,7 +5,15 @@ Credentials are environment dependent configurations that need to be kept secret
 
 ## Tools
 
-- vault
+### Vault
+
+Vault is secret store software. It can be used to safely store and manage credentials. I think that two things distinguish Vault from the rest of the crowd:
+
+- It is designed to be run in the cloud.
+- It has the concept of managed backends. A backend can be anything that requires credentials (such as MySQL). Vault will create and rotate credentials for any managed backend.
+
+Managed credentials make Vault interesting for those scenarios where high automation is required, while at the same time strict security requirements on credential management need to be enforced
+
 
 ## How?
 
