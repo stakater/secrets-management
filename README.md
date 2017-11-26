@@ -42,6 +42,8 @@ The GitHub auth backend can be used to authenticate with Vault using a GitHub pe
 
 [Auth Backend: Kubernetes](https://www.vaultproject.io/docs/auth/kubernetes.html)
 
+The Kubernetes auth backend can be used to authenticate with Vault using a Kubernetes Service Account Token. This method of authentication makes it easy to introduce a Vault token into a Kubernetes Pod.
+
 
 
 ---
