@@ -25,6 +25,8 @@ Vault supports a number of authentication backends. Some backends are targeted t
 
 Only one authentication is required to gain access to Vault, and it is not currently possible to force a user through multiple authentication backends to gain access, although some backends do support MFA.
 
+---
+
 #### Step 1 : Authenticate to Vault as User
 
 [Authenticate to Vault using GitHub](https://www.vaultproject.io/docs/auth/github.html)
@@ -35,6 +37,14 @@ The GitHub auth backend can be used to authenticate with Vault using a GitHub pe
 
 #### Step 2 : Create a secret in Vault
 
+
+#### Step 3 : Authenticate to Vault as Service (Pod)
+
+[Auth Backend: Kubernetes](https://www.vaultproject.io/docs/auth/kubernetes.html)
+
+
+
+---
 
 #### Machine authentication to Vault?
 
