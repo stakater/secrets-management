@@ -3,6 +3,22 @@ how to manage secrets?
 
 Credentials are environment dependent configurations that need to be kept secret and should be read only by subjects with a need-to-know.
 
+Passwords, API keys and confidential data fall into the category of secrets. Storing secrets the secure way is a challenge with limiting access and a true secure storage. 
+
+## How do you store Secrets?
+
+Passwords, API keys, secure Tokens, and confidential data fall into the category of secrets.
+
+That’s data which shouldn’t lie around. It mustn’t be available in plaintext in easy to guess locations. In fact, it must not be stored in plaintext in any location.
+
+Sensitive data can be encrypted by using the Spring Cloud Config Server or TomEE.
+
+Encrypted data is one step better than unencrypted. Encryption imposes on the other side the need for decryption on the user side which requires a decryption key to be distributed. Now, where do you put the key? Is the key protected by a passphrase? Where do you put the passphrase? On how many systems do you distribute your key and the passphrase?
+
+As you see, encryption introduces a chicken-egg problem. Storing a decryption key gives the application the possibility to decrypt data. It also allows an attack vector. Someone who is not authorized could get access to the decryption key by having access to the machine. That person can decrypt data which is decryptable by this key. The key is static so a leaked key requires the change of keys. Data needs to be re-encrypted and credentials need to be changed. It’s not possible to discover such leakage with online measure because data can be decrypted offline once it was obtained.
+
+One approach is putting the key in a hard to guess location before the application starts and wipe the key once it was read to memory. The time in which the key is available is shortened. The attack time-frame is reduced, but still the key was there. Wiping the key works only for one application startup. Containers and microservices in the Cloud are known to be restarted once they crashed. A restart of the application is no longer possible as the key is gone.
+
 ## Tools
 
 ### Vault
