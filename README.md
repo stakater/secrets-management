@@ -311,3 +311,4 @@ $ [[ -z $DBHOST ]]; echo $?
 - https://spring.io/blog/2016/06/24/managing-secrets-with-vault
 - https://blog.openshift.com/managing-secrets-openshift-vault-integration/
 - https://spring.io/blog/2016/08/15/managing-your-database-secrets-with-vault
+- [Examples](https://github.com/mp911de/spring-cloud-vault-config-samples)
